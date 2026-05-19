@@ -3,8 +3,6 @@
 import { motion } from "framer-motion";
 import { featuredWork, socialProof, stats } from "./site-data";
 
-const workLabels = ["Brand system", "Operations dashboard", "Lead engine"];
-
 export function WorkSection() {
   return (
     <section id="work" className="relative overflow-hidden bg-black px-6 py-28 text-white">
@@ -66,7 +64,7 @@ export function WorkSection() {
         <div className="mt-14 grid gap-5 lg:grid-cols-3">
           {featuredWork.map((item, index) => (
             <motion.article
-              key={item}
+              key={item.title}
               initial={{ opacity: 0, y: 28, rotateX: 10 }}
               whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true, margin: "-80px" }}
@@ -91,25 +89,26 @@ export function WorkSection() {
               <div className="relative flex h-full flex-col justify-between">
                 <div>
                   <span className="inline-flex rounded-full border border-green-400/20 bg-green-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-green-300">
-                    {workLabels[index]}
+                    {item.category}
                   </span>
                   <h3 className="mt-6 text-2xl font-semibold leading-tight text-white">
-                    {item}
+                    {item.title}
                   </h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-400">{item.description}</p>
                 </div>
 
                 <div className="mt-10 grid grid-cols-2 gap-3">
                   <div className="rounded-lg border border-white/10 bg-white/5 p-4">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">
-                      Focus
+                      Type
                     </p>
-                    <p className="mt-2 text-sm font-semibold text-slate-200">Launch ready</p>
+                    <p className="mt-2 text-sm font-semibold text-slate-200">{item.category}</p>
                   </div>
                   <div className="rounded-lg border border-white/10 bg-white/5 p-4">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">
-                      Result
+                      Impact
                     </p>
-                    <p className="mt-2 text-sm font-semibold text-slate-200">Better traction</p>
+                    <p className="mt-2 text-sm font-semibold text-slate-200">{item.impact}</p>
                   </div>
                 </div>
               </div>
@@ -162,8 +161,9 @@ export function WorkSection() {
                 <blockquote className="relative leading-8 text-slate-200">
                   &quot;{review.quote}&quot;
                 </blockquote>
-                <figcaption className="mt-6 border-t border-white/10 pt-5 text-sm font-semibold text-green-300">
-                  {review.author}
+                <figcaption className="mt-6 border-t border-white/10 pt-5">
+                  <p className="text-sm font-semibold text-green-300">{review.author}</p>
+                  <p className="mt-0.5 text-xs text-slate-500">{review.role}</p>
                 </figcaption>
               </motion.figure>
             ))}

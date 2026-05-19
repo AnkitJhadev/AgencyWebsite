@@ -5,27 +5,51 @@ export const navLinks = [
 
 export const socialProof = [
   {
-    quote: "They turned my sketchy idea into a product that users love. Couldn't have done it without them.",
+    quote:
+      "We had a rough Figma prototype and a tight runway. CompanyApp turned it into a shippable product in 6 weeks — our first 200 users signed up before we even launched on Product Hunt.",
     author: "Sarah K., Founder of TaskFlow",
+    role: "B2B SaaS",
   },
   {
-    quote: "From zero to launch in 8 weeks. Their process is insane.",
+    quote:
+      "I'd wasted three months with a freelancer who kept re-scoping. CompanyApp shipped a fully working MVP in under two months and the retention numbers have been solid since day one.",
     author: "Mike R., Indie Hacker",
+    role: "Consumer App",
   },
   {
-    quote: "Finally, a partner who gets startups. No BS, just growth.",
-    author: "Alex T., Startup CEO",
+    quote:
+      "They pushed back on two features I thought I needed, and they were right both times. We cut scope, launched faster, and our activation rate jumped 40% compared to our old product.",
+    author: "Alex T., CEO of Roundup",
+    role: "Marketplace Startup",
   },
 ];
 
 export const stats = [
-  { value: "120+", label: "projects shipped" },
-  { value: "38%", label: "avg. workflow lift" },
-  { value: "24/7", label: "launch support" },
+  { value: "120+", label: "products shipped" },
+  { value: "40%", label: "avg. activation lift" },
+  { value: "6 wks", label: "median time to launch" },
 ];
 
 export const featuredWork = [
-  "Brand system and marketing website for a local services company",
-  "Admin dashboard for team operations and client tracking",
-  "Lead capture flow connected to sales and support workflows",
+  {
+    title: "Brand system & marketing site",
+    description:
+      "Full visual identity and conversion-focused website for a local home-services company. Organic leads up 3× in 90 days.",
+    category: "Brand / Web",
+    impact: "+3× organic leads",
+  },
+  {
+    title: "Ops dashboard for a growing agency",
+    description:
+      "Custom admin panel replacing five disconnected spreadsheets. Reduced weekly reporting time from 4 hours to 20 minutes.",
+    category: "Product / Dashboard",
+    impact: "–80% reporting time",
+  },
+  {
+    title: "Lead capture & CRM automation",
+    description:
+      "End-to-end lead flow — landing page, qualification form, and automated HubSpot sync. Cost per qualified lead dropped by half.",
+    category: "Growth / Automation",
+    impact: "–50% cost per lead",
+  },
 ];

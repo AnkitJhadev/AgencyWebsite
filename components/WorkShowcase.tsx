@@ -10,18 +10,22 @@ export function WorkShowcase() {
   const x = useMotionValue(0);
   const [halfWidth, setHalfWidth] = useState(0);
 
+  const accents = [
+    "from-emerald-400 to-teal-400",
+    "from-sky-400 to-indigo-400",
+    "from-fuchsia-400 to-pink-400",
+  ];
+
   const cards = useMemo(
     () =>
-      featuredWork.map((title, index) => ({
-        title,
-        label: index === 0 ? "Brand experience" : index === 1 ? "Growth dashboard" : "Conversion funnel",
-        accent:
-          index === 0
-            ? "from-emerald-400 to-teal-400"
-            : index === 1
-            ? "from-sky-400 to-indigo-400"
-            : "from-fuchsia-400 to-pink-400",
+      featuredWork.map((item, index) => ({
+        title: item.title,
+        description: item.description,
+        label: item.category,
+        impact: item.impact,
+        accent: accents[index % accents.length],
       })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -129,13 +133,13 @@ export function WorkShowcase() {
                       {card.title}
                     </h3>
                     <p className="mt-4 text-sm leading-6 text-slate-400">
-                      Designed for founders to launch faster, convert better, and feel premium in every interaction.
+                      {card.description}
                     </p>
                   </div>
 
                   <div className="rounded-[1.5rem] bg-white/5 p-4 text-sm text-slate-300 shadow-[0_20px_40px_-24px_rgba(255,255,255,0.12)] backdrop-blur-sm">
                     <div className="mb-2 text-[10px] uppercase tracking-[0.32em] text-slate-500">Impact</div>
-                    <div className="text-base font-semibold text-white">Faster demos • higher conversions</div>
+                    <div className="text-base font-semibold text-white">{card.impact}</div>
                   </div>
                 </div>
               </motion.div>
