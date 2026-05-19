@@ -33,6 +33,24 @@ export const stats = [
 
 export const featuredWork = [
   {
+    title: "Gym Buds — Find Workout Friends",
+    description:
+      "Full-stack social fitness app that matches gym-goers with compatible workout partners nearby. Designed, built, and launched on Google Play with 5K+ downloads.",
+    category: "Mobile App / Social",
+    impact: "5K+ downloads",
+    storeUrl: "https://play.google.com/store/apps/details?id=com.gymbuds.app",
+    platform: "Android",
+  },
+  {
+    title: "Golf Islands",
+    description:
+      "Casual mobile golf game with island-themed levels built for a global audience. Published on Google Play with PEGI 3 rating — family-friendly and ad-supported.",
+    category: "Mobile Game",
+    impact: "PEGI 3 · Global release",
+    storeUrl: "https://play.google.com/store/apps/details?id=com.kidga.golf",
+    platform: "Android",
+  },
+  {
     title: "Brand system & marketing site",
     description:
       "Full visual identity and conversion-focused website for a local home-services company. Organic leads up 3× in 90 days.",

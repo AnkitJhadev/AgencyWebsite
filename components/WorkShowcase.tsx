@@ -14,6 +14,8 @@ export function WorkShowcase() {
     "from-emerald-400 to-teal-400",
     "from-sky-400 to-indigo-400",
     "from-fuchsia-400 to-pink-400",
+    "from-amber-400 to-orange-400",
+    "from-violet-400 to-purple-400",
   ];
 
   const cards = useMemo(
