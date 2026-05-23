@@ -58,7 +58,7 @@ export function Navbar() {
           aria-label="Ignitly home"
         >
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-sm font-bold text-white shadow-[0_8px_30px_-15px_rgba(16,185,129,0.8)]">
-            C
+            I
           </span>
           <span>Ignitly</span>
         </motion.a>
