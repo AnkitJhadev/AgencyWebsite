@@ -47,8 +47,8 @@ export async function POST(req: NextRequest) {
     const resend = new Resend(apiKey);
 
     await resend.emails.send({
-      from: "CompanyApp <noreply@companyapp.dev>",
-      to: "hello@companyapp.com",
+      from: "Ignitly <noreply@ignitly.com>",
+      to: "hello@ignitly.com",
       replyTo: email,
       subject,
       html,

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const siteUrl = "https://companyapp.dev";
+const siteUrl = "https://ignitly.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

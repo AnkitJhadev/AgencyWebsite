@@ -24,10 +24,10 @@ export default function Error({
       <p className="text-slate-400 text-lg max-w-md mb-10">
         We hit an unexpected snag. Try refreshing, or reach out at{" "}
         <a
-          href="mailto:hello@companyapp.com"
+          href="mailto:hello@ignitly.com"
           className="text-green-400 hover:underline"
         >
-          hello@companyapp.com
+          hello@ignitly.com
         </a>{" "}
         if it keeps happening.
       </p>

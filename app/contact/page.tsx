@@ -6,7 +6,7 @@ import { Navbar } from "@/components/Navbar";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Start a conversation with CompanyApp. Tell us about your idea and we'll map the fastest path from concept to launched product.",
+    "Start a conversation with Ignitly. Tell us about your idea and we'll map the fastest path from concept to launched product.",
 };
 
 const contactInfo = [
@@ -17,8 +17,8 @@ const contactInfo = [
         <path d="m2 7 10 7 10-7" />
       </svg>
     ),
-    label: "hello@companyapp.com",
-    href: "mailto:hello@companyapp.com",
+    label: "hello@ignitly.com",
+    href: "mailto:hello@ignitly.com",
   },
   {
     icon: (
@@ -48,8 +48,8 @@ export default function ContactPage() {
             {/* Left column */}
             <div className="flex flex-col gap-10">
               <div>
-                <p className="text-base font-semibold text-white">CompanyApp</p>
-                <p className="text-base text-slate-400">Product Design &amp; Development</p>
+                <p className="text-base font-semibold text-white">Ignitly</p>
+                <p className="text-base text-slate-400">Apps · AI Workflows · Chatbots · Voice Agents</p>
               </div>
 
               <div className="text-sm leading-7 text-slate-400">

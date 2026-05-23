@@ -55,12 +55,12 @@ export function Navbar() {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className="inline-flex items-center gap-3 text-lg font-semibold tracking-tight text-white"
-          aria-label="CompanyApp home"
+          aria-label="Ignitly home"
         >
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-sm font-bold text-white shadow-[0_8px_30px_-15px_rgba(16,185,129,0.8)]">
             C
           </span>
-          <span>CompanyApp</span>
+          <span>Ignitly</span>
         </motion.a>
 
         {/* Desktop nav */}

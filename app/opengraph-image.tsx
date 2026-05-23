@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "CompanyApp — We Build Products Founders Love";
+export const alt = "Ignitly — We Ignite Products Founders Love";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -75,7 +75,7 @@ export default function OgImage() {
             C
           </div>
           <span style={{ color: "white", fontSize: "24px", fontWeight: "600" }}>
-            CompanyApp
+            Ignitly
           </span>
         </div>
 
@@ -90,7 +90,7 @@ export default function OgImage() {
             marginBottom: "28px",
           }}
         >
-          We Build Products{" "}
+          We Ignite Products{" "}
           <span style={{ color: "#4ade80" }}>Founders Love</span>
         </div>
 

@@ -88,10 +88,10 @@ export function ContactSection() {
                   Or email us directly
                 </p>
                 <a
-                  href="mailto:hello@companyapp.com"
+                  href="mailto:hello@ignitly.com"
                   className="mt-2 block text-lg font-semibold text-white transition hover:text-green-300 focus-visible:text-green-300"
                 >
-                  hello@companyapp.com
+                  hello@ignitly.com
                 </a>
               </div>
             </div>

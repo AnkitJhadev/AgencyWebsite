@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://companyapp.dev/sitemap.xml",
+    sitemap: "https://ignitly.com/sitemap.xml",
   };
 }
