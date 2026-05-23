@@ -17,7 +17,7 @@ export function ProblemSection() {
   const isInView = useInView(diagramRef, { once: false, margin: "-100px" });
 
   return (
-    <section className="relative overflow-hidden bg-black px-6 py-28 text-white">
+    <section id="about" className="relative overflow-hidden bg-black px-6 py-28 text-white">
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-[#16a34a]/15 blur-3xl" />
       <div className="pointer-events-none absolute right-0 top-48 h-[28rem] w-[28rem] rounded-full bg-[#0f766e]/10 blur-3xl" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-green-400/30 to-transparent" />
