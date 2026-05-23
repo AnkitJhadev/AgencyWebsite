@@ -1,12 +1,70 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { featuredWork, socialProof, stats } from "./site-data";
+import { useEffect, useRef, useState } from "react";
+import { featuredWork, stats } from "./site-data";
+
+/** Counts up from 0 to `to` once `trigger` becomes true. */
+function useCountUp(to: number, duration = 1800, trigger: boolean) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!trigger) return;
+    setVal(0);
+    let raf: number;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      setVal(Math.round(eased * to));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to, duration, trigger]);
+  return val;
+}
+
+/** Parses "120+" → { num: 120, suffix: "+" } */
+function parseStat(value: string) {
+  const m = value.match(/^(\d+)(.*)$/);
+  return { num: m ? parseInt(m[1]) : 0, suffix: m ? m[2] : "" };
+}
+
+function AnimatedStatCard({
+  stat,
+  index,
+  trigger,
+}: {
+  stat: (typeof stats)[0];
+  index: number;
+  trigger: boolean;
+}) {
+  const { num, suffix } = parseStat(stat.value);
+  const count = useCountUp(num, 1800, trigger);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ delay: index * 0.08, duration: 0.5, ease: "easeOut" }}
+      className="rounded-lg border border-white/10 bg-white/5 p-5 text-center"
+    >
+      <p className="text-4xl font-semibold text-white">
+        {count}
+        {suffix}
+      </p>
+      <p className="mt-2 text-sm uppercase tracking-[0.24em] text-slate-300">
+        {stat.label}
+      </p>
+    </motion.div>
+  );
+}
 
 export function WorkSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: false, margin: "-100px" });
+  const statsRef = useRef<HTMLDivElement>(null);
+  const statsInView = useInView(statsRef, { once: true, margin: "-60px" });
 
   return (
     <section id="work" ref={sectionRef} className="relative overflow-hidden bg-black px-6 py-28 text-white">
@@ -143,54 +201,16 @@ export function WorkSection() {
           ))}
         </div>
 
-        {/* Stats */}
-        <div className="mt-16 grid gap-5 md:grid-cols-3">
+        {/* Animated stats */}
+        <div ref={statsRef} className="mt-16 grid gap-5 md:grid-cols-3">
           {stats.map((stat, index) => (
-            <motion.div
+            <AnimatedStatCard
               key={stat.label}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ delay: index * 0.08, duration: 0.5, ease: "easeOut" }}
-              className="rounded-lg border border-white/10 bg-white/5 p-5 text-center"
-            >
-              <p className="text-4xl font-semibold text-white">{stat.value}</p>
-              <p className="mt-2 text-sm uppercase tracking-[0.24em] text-slate-300">{stat.label}</p>
-            </motion.div>
+              stat={stat}
+              index={index}
+              trigger={statsInView}
+            />
           ))}
-        </div>
-
-        {/* Testimonials */}
-        <div className="mt-20">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-green-300">Customer reviews</p>
-            <h3 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">
-              Founders feel the difference when product and growth move together.
-            </h3>
-          </div>
-
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            {socialProof.map((review, index) => (
-              <motion.figure
-                key={review.author}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                whileHover={{ y: -8 }}
-                transition={{ delay: index * 0.08, duration: 0.55, ease: "easeOut" }}
-                className="relative overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/[0.06] p-6 shadow-[0_28px_90px_-55px_rgba(16,185,129,0.75)]"
-              >
-                <div className="absolute right-5 top-5 text-6xl font-black leading-none text-green-300/10" aria-hidden="true">&quot;</div>
-                <blockquote className="relative leading-8 text-slate-200">
-                  &quot;{review.quote}&quot;
-                </blockquote>
-                <figcaption className="mt-6 border-t border-white/10 pt-5">
-                  <p className="text-sm font-semibold text-green-300">{review.author}</p>
-                  <p className="mt-0.5 text-xs text-slate-400">{review.role}</p>
-                </figcaption>
-              </motion.figure>
-            ))}
-          </div>
         </div>
       </div>
     </section>
