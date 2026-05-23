@@ -1,11 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import { featuredWork, socialProof, stats } from "./site-data";
 
 export function WorkSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: false, margin: "-100px" });
+
   return (
-    <section id="work" className="relative overflow-hidden bg-black px-6 py-28 text-white">
+    <section id="work" ref={sectionRef} className="relative overflow-hidden bg-black px-6 py-28 text-white">
       <div className="pointer-events-none absolute -left-24 top-24 h-80 w-80 rounded-full bg-[#16a34a]/15 blur-3xl" />
       <div className="pointer-events-none absolute bottom-10 right-0 h-[28rem] w-[28rem] rounded-full bg-[#0f766e]/10 blur-3xl" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-green-400/30 to-transparent" />
@@ -30,24 +34,14 @@ export function WorkSection() {
               transition={{ duration: 0.7, ease: "easeOut" }}
               className="max-w-3xl text-4xl font-semibold tracking-tight text-transparent sm:text-6xl lg:text-7xl"
             >
-              <span
-                className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text"
-                style={{ WebkitTextStroke: "1px rgba(255,255,255,0.22)" }}
-              >
+              <span className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.22)" }}>
                 Work that turns ideas
               </span>
               <span className="relative block">
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-0 -z-10 translate-x-2 translate-y-2 text-white/10"
-                  style={{ WebkitTextStroke: "1px rgba(255,255,255,0.18)" }}
-                >
+                <span aria-hidden="true" className="absolute inset-0 -z-10 translate-x-2 translate-y-2 text-white/10" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.18)" }}>
                   into shipped products.
                 </span>
-                <span
-                  className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text"
-                  style={{ WebkitTextStroke: "1px rgba(255,255,255,0.2)" }}
-                >
+                <span className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.2)" }}>
                   into shipped products.
                 </span>
               </span>
@@ -55,9 +49,7 @@ export function WorkSection() {
           </div>
 
           <p className="max-w-2xl text-lg leading-8 text-slate-300 lg:justify-self-end">
-            These are the kinds of product systems we create for founders:
-            sharp positioning, practical interfaces, launch flows, and growth
-            foundations that can keep improving after release.
+            These are the kinds of product systems we create for founders: sharp positioning, practical interfaces, launch flows, and growth foundations that keep improving after release.
           </p>
         </div>
 
@@ -70,24 +62,26 @@ export function WorkSection() {
               viewport={{ once: true, margin: "-80px" }}
               whileHover={{ y: -10, rotateX: 4, rotateY: index % 3 === 0 ? -3 : index % 3 === 2 ? 3 : 0 }}
               transition={{ delay: index * 0.07, duration: 0.55, ease: "easeOut" }}
-              className={`relative flex min-h-[320px] flex-col overflow-hidden rounded-[1.5rem] border backdrop-blur-xl ${
-                "storeUrl" in item
-                  ? "border-green-400/25 bg-slate-950/90 shadow-[0_35px_100px_-55px_rgba(16,185,129,0.9)]"
-                  : "border-white/10 bg-slate-950/80 shadow-[0_35px_100px_-55px_rgba(16,185,129,0.55)]"
-              }`}
+              className={`relative flex min-h-[320px] flex-col overflow-hidden rounded-[1.5rem] border backdrop-blur-xl ${"storeUrl" in item
+                ? "border-green-400/25 bg-slate-950/90 shadow-[0_35px_100px_-55px_rgba(16,185,129,0.9)]"
+                : "border-white/10 bg-slate-950/80 shadow-[0_35px_100px_-55px_rgba(16,185,129,0.55)]"
+                }`}
               style={{ transformStyle: "preserve-3d" }}
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-green-300 via-emerald-400 to-teal-300" />
               <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-green-400/10 blur-3xl" />
-              <motion.div
-                animate={{ x: ["-40%", "120%"] }}
-                transition={{ duration: 4.2, repeat: Infinity, delay: index * 0.4, ease: "easeInOut" }}
-                className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-white/8 to-transparent"
-              />
+
+              {/* Shimmer — only render when section is in viewport */}
+              {isInView && (
+                <motion.div
+                  animate={{ x: ["-40%", "120%"] }}
+                  transition={{ duration: 4.2, repeat: Infinity, delay: index * 0.4, ease: "easeInOut" }}
+                  className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-white/8 to-transparent"
+                />
+              )}
 
               <div className="relative flex flex-1 flex-col justify-between p-6">
                 <div>
-                  {/* badges row */}
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="inline-flex rounded-full border border-green-400/20 bg-green-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-green-300">
                       {item.category}
@@ -95,7 +89,7 @@ export function WorkSection() {
                     {"platform" in item && (
                       <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
                         <svg viewBox="0 0 24 24" className="h-3 w-3 fill-current" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M3.18 23.76a1.05 1.05 0 0 1-.59-.18 1.1 1.1 0 0 1-.44-.9V1.32a1.1 1.1 0 0 1 .44-.9 1.05 1.05 0 0 1 1.03-.1l18.1 10.68a1.1 1.1 0 0 1 0 1.9L3.62 23.68a1.05 1.05 0 0 1-.44.08z"/>
+                          <path d="M3.18 23.76a1.05 1.05 0 0 1-.59-.18 1.1 1.1 0 0 1-.44-.9V1.32a1.1 1.1 0 0 1 .44-.9 1.05 1.05 0 0 1 1.03-.1l18.1 10.68a1.1 1.1 0 0 1 0 1.9L3.62 23.68a1.05 1.05 0 0 1-.44.08z" />
                         </svg>
                         {item.platform}
                       </span>
@@ -108,16 +102,14 @@ export function WorkSection() {
                     )}
                   </div>
 
-                  <h3 className="mt-5 text-2xl font-semibold leading-tight text-white">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-400">{item.description}</p>
+                  <h3 className="mt-5 text-2xl font-semibold leading-tight text-white">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">{item.description}</p>
                 </div>
 
                 <div className="mt-8 flex flex-col gap-3">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="rounded-lg border border-white/10 bg-white/5 p-4">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
                         {"platform" in item ? "Platform" : "Type"}
                       </p>
                       <p className="mt-2 text-sm font-semibold text-slate-200">
@@ -125,9 +117,7 @@ export function WorkSection() {
                       </p>
                     </div>
                     <div className="rounded-lg border border-white/10 bg-white/5 p-4">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">
-                        Impact
-                      </p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">Impact</p>
                       <p className="mt-2 text-sm font-semibold text-slate-200">{item.impact}</p>
                     </div>
                   </div>
@@ -142,7 +132,7 @@ export function WorkSection() {
                       className="flex items-center justify-center gap-2 rounded-xl border border-green-400/25 bg-green-400/10 px-4 py-2.5 text-sm font-semibold text-green-300 transition hover:bg-green-400/20"
                     >
                       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3.18 23.76a1.05 1.05 0 0 1-.59-.18 1.1 1.1 0 0 1-.44-.9V1.32a1.1 1.1 0 0 1 .44-.9 1.05 1.05 0 0 1 1.03-.1l18.1 10.68a1.1 1.1 0 0 1 0 1.9L3.62 23.68a1.05 1.05 0 0 1-.44.08z"/>
+                        <path d="M3.18 23.76a1.05 1.05 0 0 1-.59-.18 1.1 1.1 0 0 1-.44-.9V1.32a1.1 1.1 0 0 1 .44-.9 1.05 1.05 0 0 1 1.03-.1l18.1 10.68a1.1 1.1 0 0 1 0 1.9L3.62 23.68a1.05 1.05 0 0 1-.44.08z" />
                       </svg>
                       View on Google Play
                     </motion.a>
@@ -153,6 +143,7 @@ export function WorkSection() {
           ))}
         </div>
 
+        {/* Stats */}
         <div className="mt-16 grid gap-5 md:grid-cols-3">
           {stats.map((stat, index) => (
             <motion.div
@@ -164,18 +155,15 @@ export function WorkSection() {
               className="rounded-lg border border-white/10 bg-white/5 p-5 text-center"
             >
               <p className="text-4xl font-semibold text-white">{stat.value}</p>
-              <p className="mt-2 text-sm uppercase tracking-[0.24em] text-slate-400">
-                {stat.label}
-              </p>
+              <p className="mt-2 text-sm uppercase tracking-[0.24em] text-slate-300">{stat.label}</p>
             </motion.div>
           ))}
         </div>
 
+        {/* Testimonials */}
         <div className="mt-20">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-green-300">
-              Customer reviews
-            </p>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-green-300">Customer reviews</p>
             <h3 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">
               Founders feel the difference when product and growth move together.
             </h3>
@@ -192,15 +180,13 @@ export function WorkSection() {
                 transition={{ delay: index * 0.08, duration: 0.55, ease: "easeOut" }}
                 className="relative overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/[0.06] p-6 shadow-[0_28px_90px_-55px_rgba(16,185,129,0.75)]"
               >
-                <div className="absolute right-5 top-5 text-6xl font-black leading-none text-green-300/10">
-                  &quot;
-                </div>
+                <div className="absolute right-5 top-5 text-6xl font-black leading-none text-green-300/10" aria-hidden="true">&quot;</div>
                 <blockquote className="relative leading-8 text-slate-200">
                   &quot;{review.quote}&quot;
                 </blockquote>
                 <figcaption className="mt-6 border-t border-white/10 pt-5">
                   <p className="text-sm font-semibold text-green-300">{review.author}</p>
-                  <p className="mt-0.5 text-xs text-slate-500">{review.role}</p>
+                  <p className="mt-0.5 text-xs text-slate-400">{review.role}</p>
                 </figcaption>
               </motion.figure>
             ))}

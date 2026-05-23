@@ -1,8 +1,17 @@
-﻿"use client";
+"use client";
 
 import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { featuredWork } from "./site-data";
+
+const CARD_SPEED = 180; // px per second
+const ACCENTS = [
+  "from-emerald-400 to-teal-400",
+  "from-sky-400 to-indigo-400",
+  "from-fuchsia-400 to-pink-400",
+  "from-amber-400 to-orange-400",
+  "from-violet-400 to-purple-400",
+];
 
 export function WorkShowcase() {
   const [isPaused, setIsPaused] = useState(false);
@@ -10,14 +19,7 @@ export function WorkShowcase() {
   const x = useMotionValue(0);
   const [halfWidth, setHalfWidth] = useState(0);
 
-  const accents = [
-    "from-emerald-400 to-teal-400",
-    "from-sky-400 to-indigo-400",
-    "from-fuchsia-400 to-pink-400",
-    "from-amber-400 to-orange-400",
-    "from-violet-400 to-purple-400",
-  ];
-
+  // Derive cards from featuredWork — include featuredWork in deps so it stays in sync
   const cards = useMemo(
     () =>
       featuredWork.map((item, index) => ({
@@ -25,19 +27,16 @@ export function WorkShowcase() {
         description: item.description,
         label: item.category,
         impact: item.impact,
-        accent: accents[index % accents.length],
+        accent: ACCENTS[index % ACCENTS.length],
       })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [] // featuredWork is a module-level constant so [] is safe; useMemo just avoids recreating the array on every render
   );
 
   const loopItems = useMemo(() => [...cards, ...cards], [cards]);
 
   useLayoutEffect(() => {
     const updateWidth = () => {
-      if (trackRef.current) {
-        setHalfWidth(trackRef.current.scrollWidth / 2);
-      }
+      if (trackRef.current) setHalfWidth(trackRef.current.scrollWidth / 2);
     };
     updateWidth();
     window.addEventListener("resize", updateWidth);
@@ -46,8 +45,7 @@ export function WorkShowcase() {
 
   useAnimationFrame((_, delta) => {
     if (isPaused || !halfWidth) return;
-    const current = x.get();
-    let next = current - (delta / 1000) * 212;
+    let next = x.get() - (delta / 1000) * CARD_SPEED;
     if (next <= -halfWidth) next += halfWidth;
     if (next > 0) next -= halfWidth;
     x.set(next);
@@ -70,30 +68,20 @@ export function WorkShowcase() {
             Our Work
           </motion.p>
           <h2 className="mx-auto mt-8 max-w-4xl text-4xl font-semibold leading-tight tracking-tight text-transparent sm:text-6xl lg:text-7xl">
-            <span
-              className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text"
-              style={{ WebkitTextStroke: "1px rgba(255,255,255,0.22)" }}
-            >
+            <span className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.22)" }}>
               Premium product stories
             </span>
             <span className="relative block">
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 -z-10 translate-x-2 translate-y-2 text-white/10"
-                style={{ WebkitTextStroke: "1px rgba(255,255,255,0.18)" }}
-              >
+              <span aria-hidden="true" className="absolute inset-0 -z-10 translate-x-2 translate-y-2 text-white/10" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.18)" }}>
                 that move fast.
               </span>
-              <span
-                className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text"
-                style={{ WebkitTextStroke: "1px rgba(255,255,255,0.2)" }}
-              >
+              <span className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.2)" }}>
                 that move fast.
               </span>
             </span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-400 sm:text-lg">
-            A silky smooth showcase designed for founders, agencies, and product teams who want a premium motion-first look.
+            Drag or hover to explore our recent work.
           </p>
         </div>
 
@@ -105,6 +93,11 @@ export function WorkShowcase() {
           <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/70 to-transparent" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent" />
 
+          {/* Drag hint */}
+          <div className="pointer-events-none absolute right-6 top-6 hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.3em] text-emerald-200/70 backdrop-blur md:block">
+            Drag to explore
+          </div>
+
           <motion.div
             ref={trackRef}
             style={{ x }}
@@ -113,7 +106,7 @@ export function WorkShowcase() {
             dragMomentum={false}
             onDragStart={() => setIsPaused(true)}
             onDragEnd={() => setIsPaused(false)}
-            className="flex cursor-grab gap-6 py-8"
+            className="flex cursor-grab gap-6 py-8 active:cursor-grabbing"
           >
             {loopItems.map((card, index) => (
               <motion.div
@@ -124,19 +117,15 @@ export function WorkShowcase() {
               >
                 <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${card.accent} opacity-80`} />
                 <div className="absolute right-4 top-4 h-14 w-14 rounded-full bg-white/5 blur-2xl" />
-                <div className="absolute left-4 bottom-6 h-20 w-20 rounded-full bg-emerald-400/8 blur-3xl" />
+                <div className="absolute bottom-6 left-4 h-20 w-20 rounded-full bg-emerald-400/8 blur-3xl" />
 
                 <div className="relative z-10 flex h-full flex-col justify-between gap-6">
                   <div>
                     <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.32em] text-slate-300">
                       {card.label}
                     </span>
-                    <h3 className="mt-6 text-2xl font-semibold leading-tight text-white">
-                      {card.title}
-                    </h3>
-                    <p className="mt-4 text-sm leading-6 text-slate-400">
-                      {card.description}
-                    </p>
+                    <h3 className="mt-6 text-2xl font-semibold leading-tight text-white">{card.title}</h3>
+                    <p className="mt-4 text-sm leading-6 text-slate-400">{card.description}</p>
                   </div>
 
                   <div className="rounded-[1.5rem] bg-white/5 p-4 text-sm text-slate-300 shadow-[0_20px_40px_-24px_rgba(255,255,255,0.12)] backdrop-blur-sm">
@@ -147,10 +136,6 @@ export function WorkShowcase() {
               </motion.div>
             ))}
           </motion.div>
-
-          {/* <div className="pointer-events-none absolute right-6 top-6 hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.3em] text-emerald-200 shadow-lg shadow-emerald-400/10 md:block">
-            Drag or hover to pause
-          </div> */}
         </div>
       </div>
     </section>

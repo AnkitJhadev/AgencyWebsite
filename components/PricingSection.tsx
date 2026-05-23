@@ -1,84 +1,43 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { pricingPlans } from "./site-data";
 
-const plans = [
-  {
-    name: "Starter",
-    tagline: "Validate before you build",
-    monthlyPrice: 1200,
-    onetimePrice: 2500,
-    accent: "from-slate-400 to-slate-600",
-    glowColor: "rgba(148,163,184,0.25)",
-    features: [
-      "2-week validation sprint",
-      "Market & competitor research",
-      "Audience definition workshop",
-      "Landing page with CTA",
-      "User interview framework",
-      "Go / no-go decision report",
-    ],
-    cta: "Start validating",
-  },
-  {
-    name: "Launch",
-    tagline: "Idea to shipped product",
-    monthlyPrice: 3800,
-    onetimePrice: 8500,
-    popular: true,
-    accent: "from-green-400 to-emerald-500",
-    glowColor: "rgba(16,185,129,0.55)",
-    features: [
-      "Everything in Starter",
-      "Full product UX & UI design",
-      "MVP development (6 weeks)",
-      "Brand system & style guide",
-      "Analytics & event tracking",
-      "Launch strategy & checklist",
-      "30-day post-launch support",
-    ],
-    cta: "Launch your product",
-  },
-  {
-    name: "Scale",
-    tagline: "Growth after launch",
-    monthlyPrice: 6500,
-    onetimePrice: 15000,
-    accent: "from-teal-400 to-cyan-500",
-    glowColor: "rgba(20,184,166,0.3)",
-    features: [
-      "Everything in Launch",
-      "Growth loop design",
-      "Ongoing iteration sprints",
-      "A/B testing & optimisation",
-      "Monthly strategy sessions",
-      "Dedicated Slack channel",
-      "Priority 24/7 support",
-    ],
-    cta: "Start scaling",
-  },
-];
+type Billing = "onetime" | "monthly";
 
 function CheckIcon() {
   return (
-    <svg
-      viewBox="0 0 16 16"
-      fill="none"
-      className="h-4 w-4 shrink-0 text-green-400"
-    >
+    <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 shrink-0 text-green-400">
       <circle cx="8" cy="8" r="7" stroke="currentColor" strokeOpacity={0.25} strokeWidth={1.5} />
       <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
+function selectPlan(planName: string) {
+  sessionStorage.setItem("selectedPlan", planName);
+}
+
 export function PricingSection() {
-  const [billing, setBilling] = useState<"onetime" | "monthly">("onetime");
+  const [billing, setBilling] = useState<Billing>("onetime");
+
+  // Persist billing preference across page loads
+  useEffect(() => {
+    const saved = localStorage.getItem("billingPref") as Billing | null;
+    if (saved === "onetime" || saved === "monthly") setBilling(saved);
+  }, []);
+
+  function toggleBilling() {
+    setBilling((b) => {
+      const next = b === "onetime" ? "monthly" : "onetime";
+      localStorage.setItem("billingPref", next);
+      return next;
+    });
+  }
 
   return (
     <section id="pricing" className="relative overflow-hidden bg-black px-6 py-28 text-white">
-      {/* background decoration */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-green-400/30 to-transparent" />
       <div className="pointer-events-none absolute -left-32 top-24 h-96 w-96 rounded-full bg-[#16a34a]/12 blur-3xl" />
       <div className="pointer-events-none absolute -right-24 bottom-16 h-[28rem] w-[28rem] rounded-full bg-[#0f766e]/10 blur-3xl" />
@@ -105,24 +64,14 @@ export function PricingSection() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="text-4xl font-semibold tracking-tight text-transparent sm:text-6xl lg:text-7xl"
           >
-            <span
-              className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text"
-              style={{ WebkitTextStroke: "1px rgba(255,255,255,0.22)" }}
-            >
+            <span className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.22)" }}>
               Simple pricing,
             </span>
             <span className="relative block">
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 -z-10 translate-x-2 translate-y-2 text-white/10"
-                style={{ WebkitTextStroke: "1px rgba(255,255,255,0.18)" }}
-              >
+              <span aria-hidden="true" className="absolute inset-0 -z-10 translate-x-2 translate-y-2 text-white/10" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.18)" }}>
                 serious outcomes.
               </span>
-              <span
-                className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text"
-                style={{ WebkitTextStroke: "1px rgba(255,255,255,0.2)" }}
-              >
+              <span className="block bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.2)" }}>
                 serious outcomes.
               </span>
             </span>
@@ -135,8 +84,7 @@ export function PricingSection() {
             transition={{ duration: 0.65, delay: 0.1, ease: "easeOut" }}
             className="mt-6 text-lg leading-8 text-slate-400"
           >
-            No hourly billing, no scope creep surprises. Pick the engagement
-            that matches where you are right now.
+            No hourly billing, no scope creep surprises. Pick the engagement that matches where you are right now.
           </motion.p>
         </div>
 
@@ -154,9 +102,10 @@ export function PricingSection() {
 
           <button
             type="button"
-            onClick={() => setBilling(b => b === "onetime" ? "monthly" : "onetime")}
-            aria-label="Toggle billing period"
-            className="relative h-7 w-14 rounded-full border border-white/10 bg-white/5 transition focus:outline-none focus:ring-2 focus:ring-green-400/50"
+            onClick={toggleBilling}
+            aria-label={`Switch to ${billing === "onetime" ? "monthly" : "one-time"} billing`}
+            aria-pressed={billing === "monthly"}
+            className="relative h-7 w-14 rounded-full border border-white/10 bg-white/5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400/60"
           >
             <motion.span
               layout
@@ -176,7 +125,7 @@ export function PricingSection() {
 
         {/* Cards */}
         <div className="mt-14 grid gap-6 lg:grid-cols-3 lg:items-stretch">
-          {plans.map((plan, index) => (
+          {pricingPlans.map((plan, index) => (
             <motion.div
               key={plan.name}
               initial={{ opacity: 0, y: 32, rotateX: 10 }}
@@ -191,29 +140,15 @@ export function PricingSection() {
               }`}
               style={{ transformStyle: "preserve-3d" }}
             >
-              {/* Top accent bar */}
               <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${plan.accent}`} />
-
-              {/* Shimmer sweep */}
               <motion.div
                 animate={{ x: ["-40%", "140%"] }}
-                transition={{
-                  duration: 4.5,
-                  repeat: Infinity,
-                  delay: index * 0.6,
-                  ease: "easeInOut",
-                }}
+                transition={{ duration: 4.5, repeat: Infinity, delay: index * 0.6, ease: "easeInOut" }}
                 className="pointer-events-none absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-white/5 to-transparent"
               />
-
-              {/* Glow blob */}
-              <div
-                className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full blur-3xl"
-                style={{ background: plan.glowColor, opacity: 0.4 }}
-              />
+              <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full blur-3xl" style={{ background: plan.glowColor, opacity: 0.4 }} />
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(34,197,94,0.07),_transparent_50%)]" />
 
-              {/* Popular badge */}
               {plan.popular && (
                 <div className="absolute right-6 top-5 flex items-center gap-1.5">
                   <motion.span
@@ -228,9 +163,8 @@ export function PricingSection() {
               )}
 
               <div className="relative flex flex-1 flex-col p-8">
-                {/* Plan name & tagline */}
                 <div>
-                  <span className={`inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-400`}>
+                  <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-400">
                     {plan.name}
                   </span>
                   <p className="mt-3 text-sm text-slate-400">{plan.tagline}</p>
@@ -266,10 +200,8 @@ export function PricingSection() {
                   )}
                 </div>
 
-                {/* Divider */}
                 <div className="my-8 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-                {/* Features */}
                 <ul className="flex flex-1 flex-col gap-3.5">
                   {plan.features.map((feat, fi) => (
                     <motion.li
@@ -286,9 +218,10 @@ export function PricingSection() {
                   ))}
                 </ul>
 
-                {/* CTA */}
+                {/* CTA — stores plan name in sessionStorage so contact form can pick it up */}
                 <motion.a
                   href="#contact"
+                  onClick={() => selectPlan(plan.name)}
                   whileHover={{ y: -2, scale: 1.015 }}
                   whileTap={{ scale: 0.98 }}
                   className={`mt-10 inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold transition ${
@@ -321,12 +254,12 @@ export function PricingSection() {
                 Not sure which plan fits?
               </p>
               <p className="mt-2 text-slate-400">
-                Every engagement starts with a free 30-minute founder call. We
-                scope the right level of work together — no commitment required.
+                Every engagement starts with a free 30-minute founder call. We scope the right level of work together — no commitment required.
               </p>
             </div>
             <motion.a
               href="#contact"
+              onClick={() => selectPlan("")}
               whileHover={{ y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3 text-sm font-semibold text-white transition hover:border-green-400/50 hover:bg-white/10"
