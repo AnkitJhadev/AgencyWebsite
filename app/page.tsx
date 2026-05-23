@@ -6,6 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { PricingSection } from "@/components/PricingSection";
 import { ProblemSection } from "@/components/ProblemSection";
 import { SolutionSection } from "@/components/SolutionSection";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { WorkSection } from "@/components/WorkSection";
 import { WorkShowcase } from "@/components/WorkShowcase";
 
@@ -18,6 +19,7 @@ export default function Home() {
         <WorkShowcase />
         <ProblemSection />
         <SolutionSection />
+        <TestimonialsSection />
         <WorkSection />
         <PricingSection />
         <FAQSection />
