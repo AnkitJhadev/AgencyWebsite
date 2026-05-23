@@ -11,7 +11,7 @@ const mockMetrics = [
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-black text-white">
+    <section id="home" aria-label="Hero — Ignitly product partner for founders" className="relative overflow-hidden bg-black text-white">
       {/* Subtle dot-grid background */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.13]"

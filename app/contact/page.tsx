@@ -4,9 +4,30 @@ import { ContactForm } from "@/components/ContactForm";
 import { Navbar } from "@/components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
+  title: "Contact Us — Start Your Project",
   description:
-    "Start a conversation with Ignitly. Tell us about your idea and we'll map the fastest path from concept to launched product.",
+    "Get in touch with Ignitly. Tell us about your idea — apps, AI workflows, chatbots, or voice agents — and we'll map the fastest path from concept to shipped product.",
+  keywords: [
+    "contact Ignitly",
+    "hire app development agency",
+    "book AI development consultation",
+    "start mobile app project",
+    "founder product consultation",
+  ],
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact Ignitly — Start Your Product",
+    description:
+      "Tell us about your idea. We'll map the fastest path from concept to shipped product — apps, AI workflows, chatbots & voice agents.",
+    url: "https://ignitly.com/contact",
+  },
+  twitter: {
+    title: "Contact Ignitly — Start Your Product",
+    description:
+      "Tell us about your idea. We'll map the fastest path from concept to shipped product.",
+  },
 };
 
 const contactInfo = [
