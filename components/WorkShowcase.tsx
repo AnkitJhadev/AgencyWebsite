@@ -4,7 +4,7 @@ import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { featuredWork } from "./site-data";
 
-const CARD_SPEED = 180; // px per second
+const CARD_SPEED = 50;  // px per second — slow, cinematic scroll
 const ACCENTS = [
   "from-emerald-400 to-teal-400",
   "from-sky-400 to-indigo-400",
@@ -18,6 +18,8 @@ export function WorkShowcase() {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const x = useMotionValue(0);
   const [halfWidth, setHalfWidth] = useState(0);
+  // Tracks the current rendered speed so we can lerp smoothly to 0 on pause
+  const currentSpeed = useRef(CARD_SPEED);
 
   // Derive cards from featuredWork — include featuredWork in deps so it stays in sync
   const cards = useMemo(
@@ -44,8 +46,12 @@ export function WorkShowcase() {
   }, []);
 
   useAnimationFrame((_, delta) => {
-    if (isPaused || !halfWidth) return;
-    let next = x.get() - (delta / 1000) * CARD_SPEED;
+    if (!halfWidth) return;
+    // Lerp speed towards target: glides smoothly to a stop on hover, back up on leave
+    const target = isPaused ? 0 : CARD_SPEED;
+    currentSpeed.current += (target - currentSpeed.current) * Math.min(1, delta * 0.006);
+    if (currentSpeed.current < 0.1) return;
+    let next = x.get() - (delta / 1000) * currentSpeed.current;
     if (next <= -halfWidth) next += halfWidth;
     if (next > 0) next -= halfWidth;
     x.set(next);
