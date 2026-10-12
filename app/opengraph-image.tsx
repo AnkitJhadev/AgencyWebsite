@@ -72,7 +72,7 @@ export default function OgImage() {
               fontWeight: "700",
             }}
           >
-            C
+            I
           </div>
           <span style={{ color: "white", fontSize: "24px", fontWeight: "600" }}>
             Ignitly
@@ -82,6 +82,8 @@ export default function OgImage() {
         {/* Headline */}
         <div
           style={{
+            display: "flex",
+            flexWrap: "wrap",
             fontSize: "72px",
             fontWeight: "700",
             color: "white",
@@ -90,7 +92,7 @@ export default function OgImage() {
             marginBottom: "28px",
           }}
         >
-          We Ignite Products{" "}
+          <span style={{ marginRight: "18px" }}>We Ignite Products</span>
           <span style={{ color: "#4ade80" }}>Founders Love</span>
         </div>
 

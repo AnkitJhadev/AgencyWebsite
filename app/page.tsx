@@ -1,17 +1,17 @@
-import { ContactSection } from "@/components/ContactSection";
-import { CTABanner } from "@/components/CTABanner";
-import { FAQSection } from "@/components/FAQSection";
-import { Footer } from "@/components/Footer";
-import { HeroSection } from "@/components/HeroSection";
-import { Navbar } from "@/components/Navbar";
-import { PricingSection } from "@/components/PricingSection";
-import { ProblemSection } from "@/components/ProblemSection";
-import { ScrollToTop } from "@/components/ScrollToTop";
-import { ServicesSection } from "@/components/ServicesSection";
-import { SolutionSection } from "@/components/SolutionSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { WorkSection } from "@/components/WorkSection";
-import { WorkShowcase } from "@/components/WorkShowcase";
+import { ContactSection } from "@/features/contact/ContactSection";
+import { CTABanner } from "@/features/landing/CTABanner";
+import { FAQSection } from "@/features/landing/FAQSection";
+import { Footer } from "@/components/layout/Footer";
+import { HeroSection } from "@/features/landing/HeroSection";
+import { Navbar } from "@/components/layout/Navbar";
+import { PricingSection } from "@/features/landing/PricingSection";
+import { ProblemSection } from "@/features/landing/ProblemSection";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { ServicesSection } from "@/features/landing/ServicesSection";
+import { SolutionSection } from "@/features/landing/SolutionSection";
+import { TestimonialsSection } from "@/features/landing/TestimonialsSection";
+import { WorkSection } from "@/features/landing/WorkSection";
+import { WorkShowcase } from "@/features/landing/WorkShowcase";
 
 export default function Home() {
   return (

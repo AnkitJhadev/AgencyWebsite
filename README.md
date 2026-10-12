@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ignitly website
 
-## Getting Started
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion · Resend
 
-First, run the development server:
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # add RESEND_API_KEY
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Database (optional locally, recommended in production): set `DATABASE_URL` in `.env.local`, then `npm run db:migrate`.
+After editing `server/db/schema.ts`, run `npm run db:generate` and commit the new migration.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/            Routing only: pages, layouts, route handlers, Next file conventions.
+                Files here stay thin and delegate to the layers below.
+features/       Frontend, by feature (landing sections, contact form + its API client).
+components/     Shared UI: layout/ (Navbar, Footer), seo/ (JsonLd).
+content/        Static copy and data (pricing, FAQs, testimonials, work, ...).
+lib/            Isomorphic code safe for browser and server: config/, schemas/, seo/.
+server/         Backend only (guarded by `server-only`):
+  modules/        one folder per domain: controller (HTTP) → service → email template
+  db/             Drizzle schema, client and SQL migrations (Postgres)
+  email/          email provider wrapper (the only place that imports Resend)
+  http/           response helpers, rate limiting
+  config.ts       environment variables and secrets
+```
 
-## Learn More
+Dependency direction: `app` → `features`/`server` → `lib`/`content`. `server/` must never be imported from client components.
 
-To learn more about Next.js, take a look at the following resources:
+## Adding an API endpoint
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Schema in `lib/schemas/<name>.ts` (shared by form and API).
+2. `server/modules/<name>/` with `<name>.controller.ts` and `<name>.service.ts`.
+3. `app/api/<name>/route.ts` re-exporting the controller.
+4. Client call in `features/<name>/api.ts`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Environment variables
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `.env.example`. `RESEND_API_KEY` is required in production.

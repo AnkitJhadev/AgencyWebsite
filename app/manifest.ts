@@ -12,9 +12,9 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#4ade80",
     icons: [
       {
-        src: "/icon.png",
+        src: "/favicon.ico",
         sizes: "any",
-        type: "image/png",
+        type: "image/x-icon",
       },
     ],
   };

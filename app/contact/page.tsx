@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ContactForm } from "@/components/ContactForm";
-import { Navbar } from "@/components/Navbar";
+import { BookCallButton } from "@/features/contact/BookCallButton";
+import { ContactForm } from "@/features/contact/ContactForm";
+import { Navbar } from "@/components/layout/Navbar";
+import { siteConfig } from "@/lib/config/site";
 
 export const metadata: Metadata = {
   title: "Contact Us — Start Your Project",
@@ -38,8 +40,8 @@ const contactInfo = [
         <path d="m2 7 10 7 10-7" />
       </svg>
     ),
-    label: "hello@ignitly.com",
-    href: "mailto:hello@ignitly.com",
+    label: siteConfig.email,
+    href: `mailto:${siteConfig.email}`,
   },
   {
     icon: (
@@ -92,6 +94,8 @@ export default function ContactPage() {
                   </a>
                 ))}
               </div>
+
+              <BookCallButton className="self-start" />
 
               <Link
                 href="/"

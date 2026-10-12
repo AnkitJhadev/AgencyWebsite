@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { siteConfig } from "@/lib/config/site";
 
 export default function Error({
   error,
@@ -24,10 +25,10 @@ export default function Error({
       <p className="text-slate-400 text-lg max-w-md mb-10">
         We hit an unexpected snag. Try refreshing, or reach out at{" "}
         <a
-          href="mailto:hello@ignitly.com"
+          href={`mailto:${siteConfig.email}`}
           className="text-green-400 hover:underline"
         >
-          hello@ignitly.com
+          {siteConfig.email}
         </a>{" "}
         if it keeps happening.
       </p>
